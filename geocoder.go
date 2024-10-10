@@ -30,6 +30,7 @@ type Address struct {
 	City             string
 	County           string
 	State            string
+	StateCode        string
 	Country          string
 	PostalCode       string
 	FormattedAddress string
@@ -42,8 +43,10 @@ type Location struct {
 	Longitude float64
 }
 
-// Format an address based on the Address structure
+// FormatAddress an address based on the Address structure
 // Return the formated address (string)
+// This is used for making the request to the Google Geocoding API.
+// Do not add new fields here.
 func (address *Address) FormatAddress() string {
 
 	// Creats a slice with all content from the Address struct
@@ -206,6 +209,7 @@ func convertResultsToAddress(results structs.Results) (addresses []Address) {
 					break
 				case "administrative_area_level_1":
 					address.State = component.LongName
+					address.StateCode = component.ShortName
 					break
 				case "country":
 					address.Country = component.LongName
